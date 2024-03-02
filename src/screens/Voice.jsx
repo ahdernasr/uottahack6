@@ -5,6 +5,6 @@ const Voice = () => {
   return (
     <Text>Voice</Text>
   )
-}
+} 
 
 export default Voice
