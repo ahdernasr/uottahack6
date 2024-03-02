@@ -1,17 +1,21 @@
 import React from 'react'
-import { Text } from 'react-native'
+import { StyleSheet, Text, View, Dimensions } from 'react-native'
 import {enableLatestRenderer} from 'react-native-maps';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
+
 
 enableLatestRenderer();
 
 const styles = StyleSheet.create({
   container: {
-    ...StyleSheet.absoluteFillObject,
-    height: 400,
-    width: 400,
-    justifyContent: 'flex-end',
+    flex: 1,
+    top: 100,
+    height: Dimensions.get('window').height-400,
+    width: Dimensions.get('window').width-30,
+    justifyContent: 'center',
     alignItems: 'center',
+    position: 'absolute',
+    alignSelf: 'center',
   },
   map: {
     ...StyleSheet.absoluteFillObject,
