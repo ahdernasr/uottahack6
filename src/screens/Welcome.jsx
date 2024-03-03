@@ -78,9 +78,10 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     marginRight: 10, // Adjust the margin as needed
+    marginTop: 40,
   },
   smileyIcon: {
-    marginTop: -2, // Adjust as needed for vertical alignment
+    marginTop: 20, // Adjust as needed for vertical alignment
   },
   batteryContainer: {
     flexDirection: 'row',
