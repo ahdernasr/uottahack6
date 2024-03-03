@@ -4,8 +4,7 @@ import React, { useEffect,
 import { StyleSheet, 
   Text, 
   View, 
-  Dimensions, 
-  PermissionsAndroid 
+  TouchableOpacity
 } from 'react-native'
 import {enableLatestRenderer} from 'react-native-maps';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
@@ -53,11 +52,13 @@ const styles = StyleSheet.create({
   },
 });
  
- const speak = () => {
-  const thingToSay = 'The closest 3 charging stations are';
-  Speech.speak(thingToSay);
-};
  const Home = ({navigation, route}) => {
+
+  const speak = () => {
+    const thingToSay = 'The closest 3 charging stations are';
+    Speech.speak(thingToSay);
+  };
+
   const [ latitude, setLatitude ] = useState(45.4231)
   const [ longitude, setLongitude ] = useState(-75.6831)
   
@@ -76,7 +77,7 @@ const styles = StyleSheet.create({
     console.log("Found:", location)
   };
   
-  getUserLocation()
+  // getUserLocation()
   
   return (
     <View style={styles.container}>
