@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#fff',
   },
   map: {
     ...StyleSheet.absoluteFillObject,
@@ -50,6 +51,33 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
   },
+  currentLoc:{
+    width:28,
+    height:28,
+    borderRadius:60,
+    elevation: 100,
+    shadowColor: '#fff',
+ },
+  stroke:{
+    width:28,
+    height:28,
+    borderRadius:60,
+    backgroundColor: '#fff',
+    zIndex:1
+
+  },
+  core:{
+    width:24,
+    height:24,
+    backgroundColor:'#0F52BA',
+    position: 'absolute',
+    top: 2,
+    left: 2,
+    right: 1,
+    bottom: 1,
+    zIndex: 2,
+    borderRadius: 60,
+ },
 });
  
  const Home = ({navigation, route}) => {
@@ -59,8 +87,7 @@ const styles = StyleSheet.create({
     Speech.speak(thingToSay);
   };
 
-  // const [ latitude, setLatitude ] = useState(45.4231)
-  // const [ longitude, setLongitude ] = useState(-75.6831)
+
   const [userLocation, setUserLocation] = useState(null);
 
   
@@ -73,10 +100,7 @@ const styles = StyleSheet.create({
   
     let location = await Location.getCurrentPositionAsync({});
     setUserLocation(location);
-    // You can now use location.coords.latitude and location.coords.longitude
-    // setLatitude(location.coords.latitude)
-    // setLongitude(location.coords.longitude)
-    
+     
     console.log("Found:", location)
   };
   
@@ -101,10 +125,12 @@ const styles = StyleSheet.create({
               longitude: userLocation.coords.longitude,
             }}
             title="Your Location"
-            image={{
-              uri: 'https://cdn-icons-png.flaticon.com/512/1783/1783356.png'
-            }}
-          />
+          >
+          <View style={styles.currentLoc}>
+            <View style={styles.stroke}/>
+            <View style={styles.core}/>
+          </View>
+          </Marker>
         </MapView>
       )}
       <View style={styles.buttonContainer}>
