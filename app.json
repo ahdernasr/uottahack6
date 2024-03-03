@@ -1,5 +1,13 @@
 {
   "expo": {
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
+        }
+      ]
+    ],
     "name": "eng-intern-assessment-react-native",
     "slug": "eng-intern-assessment-react-native",
     "version": "1.0.0",
@@ -18,6 +26,10 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.yourcompany.yourappname",
+      "googleMaps": {
+        "apiKey": "AIzaSyCA2R00ALiL46Rqxnn8ZLJfyBpAwXzQYSY"
+      },
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -26,5 +38,6 @@
     "web": {
       "favicon": "./assets/favicon.png"
     }
+    
   }
 }
