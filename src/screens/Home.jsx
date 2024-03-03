@@ -7,12 +7,7 @@ import { StyleSheet,
   TouchableOpacity
 } from 'react-native'
 import {enableLatestRenderer} from 'react-native-maps';
-import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
-import * as Location from 'expo-location';
-import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import { enableLatestRenderer } from "react-native-maps";
-import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps"; // remove PROVIDER_GOOGLE import if not using Google Maps
+import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps'; 
 import * as Location from "expo-location";
 import * as Speech from "expo-speech";
 enableLatestRenderer();
@@ -91,21 +86,19 @@ const styles = StyleSheet.create({
     zIndex: 2,
     borderRadius: 60,
  },
+
+
 });
 
 const Home = () => {
-  const [latitude, setLatitude] = useState(null);
-  const [longitude, setLongitude] = useState(null);
+
   const [chargingStations, setChargingStations] = useState([]);
   const [showStations, setShowStations] = useState(false);
+  const [userLocation, setUserLocation] = useState(null);
 
   useEffect(() => {
     getUserLocation();
   }, []);
-
-
-  const [userLocation, setUserLocation] = useState(null);
-
   
   const getUserLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
@@ -115,9 +108,8 @@ const Home = () => {
     }
 
     let location = await Location.getCurrentPositionAsync({});
-    setLatitude(location.coords.latitude);
-    setLongitude(location.coords.longitude);
-    findChargingStations(location.coords.latitude, location.coords.longitude);
+    setUserLocation(location)
+    findChargingStations(location.coords.latitude, location.coords.longitude)
   };
 
   const findChargingStations = async (lat, lng) => {
@@ -160,43 +152,39 @@ const Home = () => {
 
   return (
     <View style={styles.container}>
-      {latitude && longitude && (
+      {userLocation && (
         <MapView
           provider={PROVIDER_GOOGLE}
           style={styles.map}
-          region={{
-            latitude: latitude,
-            longitude: longitude,
+          initialRegion={{
+            latitude: userLocation.coords.latitude,
+            longitude: userLocation.coords.longitude,
             latitudeDelta: 0.015,
             longitudeDelta: 0.0121,
           }}
-        >
-          <Marker
+        >{showStations &&
+          chargingStations.map((station) => (
+            <Marker
+              key={station.place_id}
+              coordinate={{
+                latitude: station.geometry.location.lat,
+                longitude: station.geometry.location.lng,
+              }}
+              title={station.name}
+            />
+            
+          ))}
+           <Marker
             coordinate={{
               latitude: userLocation.coords.latitude,
               longitude: userLocation.coords.longitude,
             }}
             title="Your Location"
-            image={{
-              uri: 'https://cdn-icons-png.flaticon.com/512/1783/1783356.png'
-            }}
-          />
-          {showStations &&
-            chargingStations.map((station) => (
-              <Marker
-                key={station.place_id}
-                coordinate={{
-                  latitude: station.geometry.location.lat,
-                  longitude: station.geometry.location.lng,
-                }}
-                title={station.name}
-              />
-            ))}
-          >
-          <View style={styles.currentLoc}>
-            <View style={styles.stroke}/>
-            <View style={styles.core}/>
-          </View>
+            >
+            <View style={styles.currentLoc}>
+              <View style={styles.stroke}/>
+              <View style={styles.core}/>
+            </View>
           </Marker>
         </MapView>
       )}
@@ -220,10 +208,10 @@ const Home = () => {
             <Text style={styles.buttonText}>3</Text>
           </TouchableOpacity>
         </View>
-      }
+      } 
     </View>
   );
-  
+
 };
 
 export default Home;
