@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 import React, { useEffect, 
   useState
 } from 'react'
@@ -10,15 +9,12 @@ import { StyleSheet,
 import {enableLatestRenderer} from 'react-native-maps';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
 import * as Location from 'expo-location';
-import * as Speech from 'expo-speech';
-=======
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { enableLatestRenderer } from "react-native-maps";
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps"; // remove PROVIDER_GOOGLE import if not using Google Maps
 import * as Location from "expo-location";
 import * as Speech from "expo-speech";
->>>>>>> Stashed changes
 enableLatestRenderer();
 
 const styles = StyleSheet.create({
@@ -75,6 +71,26 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     marginHorizontal: 5,
   },
+  stroke:{
+    width:28,
+    height:28,
+    borderRadius:60,
+    backgroundColor: '#fff',
+    zIndex:1
+
+  },
+  core:{
+    width:24,
+    height:24,
+    backgroundColor:'#0F52BA',
+    position: 'absolute',
+    top: 2,
+    left: 2,
+    right: 1,
+    bottom: 1,
+    zIndex: 2,
+    borderRadius: 60,
+ },
 });
 
 const Home = () => {
@@ -87,14 +103,10 @@ const Home = () => {
     getUserLocation();
   }, []);
 
-<<<<<<< Updated upstream
-  // const [ latitude, setLatitude ] = useState(45.4231)
-  // const [ longitude, setLongitude ] = useState(-75.6831)
+
   const [userLocation, setUserLocation] = useState(null);
 
   
-=======
->>>>>>> Stashed changes
   const getUserLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== "granted") {
@@ -103,27 +115,6 @@ const Home = () => {
     }
 
     let location = await Location.getCurrentPositionAsync({});
-<<<<<<< Updated upstream
-    setUserLocation(location);
-    // You can now use location.coords.latitude and location.coords.longitude
-    // setLatitude(location.coords.latitude)
-    // setLongitude(location.coords.longitude)
-    
-    console.log("Found:", location)
-  };
-  
-  getUserLocation()
-  
-  return (
-    <View style={styles.container}>
-      {userLocation && (
-        <MapView
-          provider={PROVIDER_GOOGLE}
-          style={styles.map}
-          initialRegion={{
-            latitude: userLocation.coords.latitude,
-            longitude: userLocation.coords.longitude,
-=======
     setLatitude(location.coords.latitude);
     setLongitude(location.coords.longitude);
     findChargingStations(location.coords.latitude, location.coords.longitude);
@@ -176,12 +167,10 @@ const Home = () => {
           region={{
             latitude: latitude,
             longitude: longitude,
->>>>>>> Stashed changes
             latitudeDelta: 0.015,
             longitudeDelta: 0.0121,
           }}
         >
-<<<<<<< Updated upstream
           <Marker
             coordinate={{
               latitude: userLocation.coords.latitude,
@@ -192,7 +181,6 @@ const Home = () => {
               uri: 'https://cdn-icons-png.flaticon.com/512/1783/1783356.png'
             }}
           />
-=======
           {showStations &&
             chargingStations.map((station) => (
               <Marker
@@ -204,7 +192,12 @@ const Home = () => {
                 title={station.name}
               />
             ))}
->>>>>>> Stashed changes
+          >
+          <View style={styles.currentLoc}>
+            <View style={styles.stroke}/>
+            <View style={styles.core}/>
+          </View>
+          </Marker>
         </MapView>
       )}
       <View style={styles.buttonContainer}>
