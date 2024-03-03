@@ -7,7 +7,7 @@ import { StyleSheet,
   TouchableOpacity
 } from 'react-native'
 import {enableLatestRenderer} from 'react-native-maps';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
+import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
 import * as Location from 'expo-location';
 import * as Speech from 'expo-speech';
 enableLatestRenderer();
@@ -59,8 +59,10 @@ const styles = StyleSheet.create({
     Speech.speak(thingToSay);
   };
 
-  const [ latitude, setLatitude ] = useState(45.4231)
-  const [ longitude, setLongitude ] = useState(-75.6831)
+  // const [ latitude, setLatitude ] = useState(45.4231)
+  // const [ longitude, setLongitude ] = useState(-75.6831)
+  const [userLocation, setUserLocation] = useState(null);
+
   
   const getUserLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
@@ -70,27 +72,41 @@ const styles = StyleSheet.create({
     }
   
     let location = await Location.getCurrentPositionAsync({});
+    setUserLocation(location);
     // You can now use location.coords.latitude and location.coords.longitude
-    setLatitude(location.coords.latitude)
-    setLongitude(location.coords.longitude)
+    // setLatitude(location.coords.latitude)
+    // setLongitude(location.coords.longitude)
     
     console.log("Found:", location)
   };
   
-  // getUserLocation()
+  getUserLocation()
   
   return (
     <View style={styles.container}>
-      <MapView
-        provider={PROVIDER_GOOGLE}
-        style={styles.map}
-        region={{
-          latitude: latitude,
-          longitude: longitude,
-          latitudeDelta: 0.015,
-          longitudeDelta: 0.0121,
-        }}
-      />
+      {userLocation && (
+        <MapView
+          provider={PROVIDER_GOOGLE}
+          style={styles.map}
+          initialRegion={{
+            latitude: userLocation.coords.latitude,
+            longitude: userLocation.coords.longitude,
+            latitudeDelta: 0.015,
+            longitudeDelta: 0.0121,
+          }}
+        >
+          <Marker
+            coordinate={{
+              latitude: userLocation.coords.latitude,
+              longitude: userLocation.coords.longitude,
+            }}
+            title="Your Location"
+            image={{
+              uri: 'https://cdn-icons-png.flaticon.com/512/1783/1783356.png'
+            }}
+          />
+        </MapView>
+      )}
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button} onPress={speak}>
           <Text style={styles.buttonText}>Charging Stations</Text>
@@ -104,6 +120,7 @@ const styles = StyleSheet.create({
       </TouchableOpacity>
     </View>
   );
+  
 };
 
 export default Home;
