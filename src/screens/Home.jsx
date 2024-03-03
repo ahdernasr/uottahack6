@@ -1,10 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { enableLatestRenderer } from 'react-native-maps';
-import Tts from 'react-native-tts'
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import React, { useEffect, 
+  useState
+} from 'react'
+import { StyleSheet, 
+  Text, 
+  View, 
+  Dimensions, 
+  PermissionsAndroid 
+} from 'react-native'
+import {enableLatestRenderer} from 'react-native-maps';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
+import * as Location from 'expo-location';
 import * as Speech from 'expo-speech';
-
 enableLatestRenderer();
 
 const styles = StyleSheet.create({
@@ -46,22 +52,40 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
-
-const Home = ({ navigation, route }) => {
-
-  const speak = () => {
-    const thingToSay = 'The closest 3 charging stations are';
-    Speech.speak(thingToSay);
+ 
+ const speak = () => {
+  const thingToSay = 'The closest 3 charging stations are';
+  Speech.speak(thingToSay);
+};
+ const Home = ({navigation, route}) => {
+  const [ latitude, setLatitude ] = useState(45.4231)
+  const [ longitude, setLongitude ] = useState(-75.6831)
+  
+  const getUserLocation = async () => {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') {
+      console.log("Not granted")
+      return;
+    }
+  
+    let location = await Location.getCurrentPositionAsync({});
+    // You can now use location.coords.latitude and location.coords.longitude
+    setLatitude(location.coords.latitude)
+    setLongitude(location.coords.longitude)
+    
+    console.log("Found:", location)
   };
-
+  
+  getUserLocation()
+  
   return (
     <View style={styles.container}>
       <MapView
         provider={PROVIDER_GOOGLE}
         style={styles.map}
         region={{
-          latitude: 37.78825,
-          longitude: -122.4324,
+          latitude: latitude,
+          longitude: longitude,
           latitudeDelta: 0.015,
           longitudeDelta: 0.0121,
         }}
