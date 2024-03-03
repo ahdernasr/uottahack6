@@ -26,7 +26,7 @@ const Welcome = ({ navigation }) => {
       </View>
       <TouchableOpacity 
         style={styles.touchableArea} 
-        onPress={() => navigation.navigate("Vehicle")}
+        onPress={() => navigation.navigate("Voice")}
       >
         <Ionicons name="car" size={24} color="grey" />
         <Text style={styles.touchableText}>My Vehicle</Text>

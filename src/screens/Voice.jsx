@@ -1,10 +1,10 @@
 import React from 'react'
 import { Text } from 'react-native'
 
-const Voice = () => {
+const Vehicle = () => {
   return (
-    <Text>Voice</Text>
+    <Text>Vehicle</Text>
   )
 }
 
-export default Voice
+export default Vehicle

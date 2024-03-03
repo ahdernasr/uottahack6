@@ -12,10 +12,10 @@
     "slug": "eng-intern-assessment-react-native",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "android.icon": "./assets/fav.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/EV_Tech.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -31,12 +31,12 @@
         "apiKey": "AIzaSyCA2R00ALiL46Rqxnn8ZLJfyBpAwXzQYSY"
       },
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/EV_Tech.png",
         "backgroundColor": "#ffffff"
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/fav.png"
     }
     
   }
